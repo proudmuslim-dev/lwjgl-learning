@@ -1,2 +1,0 @@
-com/proudmuslim/lwjgl/learning/Window.java
- com.proudmuslim.lwjgl.learning.Window
