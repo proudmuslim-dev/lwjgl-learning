@@ -19,9 +19,10 @@ import java.nio.*;
 
 
 public class Window {
-
-    // The window handle
-    private long window;
+    private float r, g, b, a; // Color
+    private boolean brighten;
+    private boolean fade;
+    private long window; // The window handle
 
     public void run() {
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
@@ -42,7 +43,13 @@ public class Window {
         int width = 1920;
         int height = 1080;
         String title = "First time messing with LWJGL";
+        this.brighten = false;
+        this.fade = false;
 
+        this.r = 1.0f;
+        this.g = 1.0f;
+        this.b = 1.0f;
+        this.a = 1.0f;
 
         // Setup an error callback. The default implementation
         // will print the error message in System.err.
@@ -113,26 +120,40 @@ public class Window {
         GL.createCapabilities();
 
         // Set the clear color
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
         while ( !glfwWindowShouldClose(window) ) {
+            glClearColor(r, g, b, a);
             glfwPollEvents();
 
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
-
             glfwSwapBuffers(window); // swap the color buffers
 
             // Replace with KeyListenerKt to test kotlin class
             if(KeyboardListener.isKeyPressed(GLFW_KEY_SPACE)) {
                 System.out.println("Space bar pressed");
+                this.fade = true;
             } else if(KeyboardListener.isKeyPressed(GLFW_KEY_LEFT_CONTROL)) {
                 System.out.println("Left control key pressed");
+                this.brighten = true;
             } else if (KeyboardListener.isKeyPressed(GLFW_KEY_ESCAPE)) {
                 System.out.println("Escape key pressed, exiting...");
                 glfwSetWindowShouldClose(window, true);
             }
+
+            if(this.brighten) {
+                this.brighten = false;
+                this.r += 0.1f;
+                this.g += 0.1f;
+                this.b += 0.1f;
+            } else if(this.fade) {
+                this.fade = false;
+                this.r += -0.1f;
+                this.g += -0.1f;
+                this.b += -0.1f;
+            }
+
 
             // Poll for window events. The key callback above will only be
             // invoked during this call.
