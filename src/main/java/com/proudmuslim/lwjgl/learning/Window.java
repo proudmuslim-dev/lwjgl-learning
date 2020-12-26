@@ -1,5 +1,9 @@
 package com.proudmuslim.lwjgl.learning;
 
+import com.proudmuslim.lwjgl.learning.listeners.KeyboardListener;
+import com.proudmuslim.lwjgl.learning.listeners.KeyListenerKt;
+import com.proudmuslim.lwjgl.learning.listeners.MouseListener;
+
 import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 import static org.lwjgl.glfw.Callbacks.*;
@@ -58,17 +62,20 @@ public class Window {
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 
-        // Set window callbacks
+        // Set mouse related callbacks
         glfwSetCursorPosCallback(window, MouseListener::cursorPositionCallback);
         glfwSetMouseButtonCallback(window, MouseListener::mouseButtonCallback);
         glfwSetScrollCallback(window, MouseListener::scrollCallback);
 
-        // Setup a key callback. It will be called every time a key is pressed, repeated or released.
-        glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
-            if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
-                glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
-        });
+        // Set key callbacks
+        // glfwSetKeyCallback(window, KeyListenerKt::keyCallback);
+        glfwSetKeyCallback(window, KeyboardListener::keyCallback);
 
+        // Setup a key callback. It will be called every time a key is pressed, repeated or released.
+        /*
+        glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
+        });
+*/
         // Get the thread stack and push a new frame
         try ( MemoryStack stack = stackPush() ) {
             IntBuffer pWidth = stack.mallocInt(1); // int*
@@ -111,9 +118,21 @@ public class Window {
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
         while ( !glfwWindowShouldClose(window) ) {
+            glfwPollEvents();
+
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
             glfwSwapBuffers(window); // swap the color buffers
+
+            // Replace with KeyListenerKt to test kotlin class
+            if(KeyboardListener.isKeyPressed(GLFW_KEY_SPACE)) {
+                System.out.println("Space bar pressed");
+            } else if(KeyboardListener.isKeyPressed(GLFW_KEY_LEFT_CONTROL)) {
+                System.out.println("Left control key pressed");
+            } else if (KeyboardListener.isKeyPressed(GLFW_KEY_ESCAPE)) {
+                System.out.println("Escape key pressed, exiting...");
+                glfwSetWindowShouldClose(window, true);
+            }
 
             // Poll for window events. The key callback above will only be
             // invoked during this call.

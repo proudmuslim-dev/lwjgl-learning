@@ -1,7 +1,7 @@
-package com.proudmuslim.lwjgl.learning;
+package com.proudmuslim.lwjgl.learning.listeners;
 
-import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
+import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 
 public class MouseListener {
     private static MouseListener instance;
@@ -25,6 +25,7 @@ public class MouseListener {
         if(MouseListener.instance == null) {
             MouseListener.instance = new MouseListener();
         }
+
         return MouseListener.instance;
     }
     public static void cursorPositionCallback(long window, double xpos, double ypos) {
