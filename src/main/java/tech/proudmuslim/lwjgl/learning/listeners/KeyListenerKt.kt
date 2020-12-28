@@ -1,4 +1,4 @@
-package com.proudmuslim.lwjgl.learning.listeners
+package tech.proudmuslim.lwjgl.learning.listeners
 
 import org.lwjgl.glfw.GLFW.GLFW_RELEASE
 import org.lwjgl.glfw.GLFW.GLFW_PRESS
@@ -11,11 +11,11 @@ class KeyListenerKt private constructor() {
         private var instance: KeyListenerKt? = null
 
         @JvmStatic fun get(): KeyListenerKt? {
-            when(KeyListenerKt.instance) {
-                null -> KeyListenerKt.instance = KeyListenerKt();
+            when(instance) {
+                null -> instance = KeyListenerKt();
             }
 
-            return KeyListenerKt.instance
+            return instance
         }
 
         @JvmStatic fun keyCallback(window: Long, key: Int, scancode: Int, action: Int, mods: Int) {

@@ -1,4 +1,4 @@
-package com.proudmuslim.lwjgl.learning.listeners;
+package tech.proudmuslim.lwjgl.learning.listeners;
 
 import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;

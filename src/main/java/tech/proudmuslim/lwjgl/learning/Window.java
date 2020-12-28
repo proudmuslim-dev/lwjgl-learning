@@ -1,8 +1,8 @@
-package com.proudmuslim.lwjgl.learning;
+package tech.proudmuslim.lwjgl.learning;
 
-import com.proudmuslim.lwjgl.learning.listeners.KeyboardListener;
-import com.proudmuslim.lwjgl.learning.listeners.KeyListenerKt;
-import com.proudmuslim.lwjgl.learning.listeners.MouseListener;
+import tech.proudmuslim.lwjgl.learning.listeners.KeyboardListener;
+import tech.proudmuslim.lwjgl.learning.listeners.MouseListener;
+import tech.proudmuslim.lwjgl.learning.util.Time;
 
 import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
@@ -119,11 +119,10 @@ public class Window {
         // bindings available for use.
         GL.createCapabilities();
 
-        // Set the clear color
+        float timeBegun = Time.getTime();
 
-        // Run the rendering loop until the user has attempted to close
-        // the window or has pressed the ESCAPE key.
         while ( !glfwWindowShouldClose(window) ) {
+            // Set the clear color
             glClearColor(r, g, b, a);
             glfwPollEvents();
 
@@ -153,11 +152,10 @@ public class Window {
                 this.g += -0.1f;
                 this.b += -0.1f;
             }
+            float timeEnded = Time.getTime();
+            float dt = timeEnded - timeBegun;
+            timeBegun = timeEnded;
 
-
-            // Poll for window events. The key callback above will only be
-            // invoked during this call.
-            glfwPollEvents();
         }
     }
 
