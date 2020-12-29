@@ -12,7 +12,7 @@ class KeyListenerKt private constructor() {
 
         @JvmStatic fun get(): KeyListenerKt? {
             when(instance) {
-                null -> instance = KeyListenerKt();
+                null -> instance = KeyListenerKt()
             }
 
             return instance
